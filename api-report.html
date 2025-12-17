@@ -1,0 +1,2018 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow-y: scroll;">
+<head>
+  <meta charset="UTF-8">
+  <title>Newman Summary Report</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/default.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
+
+<style>
+code.renderMarkdown table, code.renderMarkdown th, code.renderMarkdown td {
+    border: 1px solid black;
+    width: max-content;
+    padding: .75rem;
+}
+
+.theme-dark {
+    --background-color: #222;
+    --bg-card-deck: #444444;
+    --text-color: #ccd2d8;
+    --tab-border: solid 1px #444;
+    --success: #3c9372;
+    --failure: #c24a3f;
+    --warning: #d28c23;
+    --info: #4083b6;
+    --badge-outline: #3c9372;
+    --badge-bg: #cdd3db;
+    --badge-text: #ccd2d9;
+    --failure-row: #c24a3f;
+    --warning-row: #d28c23;
+    --card-bg: #444;
+    --card-footer: #4f5758;
+    --form-input: #ececb5;
+    --hov-text: #d2dae5;
+    --h4-text: #ccd1d9;
+}
+
+.theme-light {
+    --tab-border: solid 1px #fff;
+    --text-color: #000000;
+    --success: #42a745;
+    --failure: #dc3544;
+    --warning: #f4c10b;
+    --info: #49a1b8;
+    --badge-outline: #040411;
+    --badge-bg: #f8f9fa;
+    --badge-text: #fff;
+    --failure-row: #f5c6cb;
+    --warning-row: #ffeeba;
+    --card-bg: #f7f7f7;
+    --hov-text: #fff;
+    --h4-text: #ffffff;
+}
+
+body {
+  padding-top:30px;
+  background-color: var(--background-color)!important;
+  color: var(--text-color);
+}
+
+#execution-data {
+  padding: 10px;
+  border: var(--tab-border);
+  border-top: none;
+}
+
+.nav-tabs {
+  padding-top: 10px;
+  height: 105px;
+  overflow-y: auto;
+}
+
+body.theme-dark .card-header {
+    background-color: #444;
+}
+
+body.theme-light .card-header {
+    background-color: #f7f7f7;
+}
+
+.card-footer {
+    padding: .75rem 1.25rem;
+    background-color: var(--card-footer);
+}
+
+.card-deck {
+    background-color: var(--bg-card-deck)!important;
+}
+.form-control {
+    background: var(--form-input);
+}
+
+.custom-tab {
+  padding: 10px 15px;
+  margin-right: 0px;
+  height: 47px;
+  width: 69px;
+  text-align: center;
+  border: var(--tab-border);
+  border-bottom: none;
+  cursor:pointer;
+}
+
+body.theme-dark .text-white {
+    color: #ccd2d9!important;
+}
+h4 {
+    color: var(--h4-text);
+}
+
+body.theme-dark h1 {
+    color: #ccd2da;
+}
+
+body.theme-dark .bg-light>td {
+    background: #4f5858!important;
+}
+
+body.theme-dark .hljs {
+    background: #0a0a0ab0!important;
+    color: #8d8787!important;
+}
+
+.bg-info {
+    background-color: var(--info)!important;
+}
+.bg-success {
+    background-color: var(--success)!important;
+}
+
+.alert-success {
+    background-color: var(--success)!important;
+}
+
+.alert-warning {
+    background-color: var(--warning)!important;
+}
+
+.alert-info {
+    background-color: var(--info)!important;
+}
+
+.bg-warning {
+    background-color: var(--warning)!important;
+}
+
+.badge-warning {
+    color: var(--badge-text)!important;
+    background-color: var(--warning)!important;
+}
+
+.table-warning>td {
+    background-color: var(--warning-row);
+}
+
+.alert-danger {
+    background-color: var(--failure)!important;
+}
+
+body.theme-dark .alert-dark {
+    background-color: #636467!important;
+}
+
+body.theme-dark .text-dark {
+    color: #d1dae4!important;
+}
+
+body.theme-dark .badge-light {
+    color: #212529;
+    background-color: #cdd3db;
+}
+
+body.theme-light .badge-light {
+    color: #212529;
+    background-color: #f8f9fa;
+}
+body.theme-light .bg-danger {
+    background-color: var(--failure)!important;
+}
+
+body.theme-dark .bg-danger {
+    background-color: var(--failure)!important;
+}
+
+.table-danger>td {
+    background-color: var(--failure-row);
+}
+
+body.theme-dark .table .thead-light th {
+    background-color: #4f5858!important;
+    border-color: #dee2e6!important;
+    color: #ccd2d8!important;
+}
+
+.itPassed {
+  background: var(--success);
+  color: white;
+}
+.itFailed {
+  background: var(--failure);
+  color: white;
+}
+
+.resultsInfoPass {
+  color: var(--success);
+  padding-top: 4px;
+}
+
+.resultsInfoFail {
+  color: var(--failure);
+  padding-top: 4px;
+}
+
+.badge-outline-success {
+  color: var(--success);
+  border: 1px solid var(--success);
+  background-color: transparent;
+}
+
+.badge-outline {
+  color: var(--badge-outline);
+  border: 1px solid var(--badge-outline);
+  background-color: transparent;
+}
+
+.btn-outline-success {
+    color: var(--success)!important;
+    border-color: var(--success)!important;
+}
+
+.backToTop:hover {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: var(--hov-text)!important;
+}
+
+.btn-outline-success:hover {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: var(--hov-text)!important;
+}
+
+.btn-outline-secondary {
+  background-color: var(--success)!important;
+  color: var(--hov-text)!important;
+}
+
+body.theme-dark .env-heading {
+    color: #ccd2d9!important;
+}
+
+body, html {
+  height:100%;
+}
+
+.card {
+  overflow:hidden;
+}
+
+body.theme-dark .card-body {
+    background-color: #444;
+}
+
+body.theme-light .card-body {
+    background-color: #f7f7f7;
+}
+
+body.theme-dark .card-body .bg-danger {
+    background-color: var(--failure)!important;
+}
+
+body.theme-light .card-body .bg-danger {
+    background-color: var(--failure)!important;
+}
+
+.card-body .rotate {
+  z-index: 8;
+  float: right;
+  height: 100%;
+}
+
+.card-body .rotate i {
+  color: #14141426;
+  position: absolute;
+  left: 0;
+  left: auto;
+  right: -10px;
+  bottom: 0;
+  display: block;
+  -webkit-transform: rotate(-44deg);
+  -moz-transform: rotate(-44deg);
+  -o-transform: rotate(-44deg);
+  -ms-transform: rotate(-44deg);
+  transform: rotate(-44deg);
+}
+
+.dyn-height {
+  max-height:350px;
+  overflow-y:auto;
+}
+
+.nav-pills .nav-link.active {
+  background-color: transparent!important;
+}
+
+.backToTop {
+  display: none;
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  z-index: 99;
+  font-size: 15px;
+  outline: none;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.card-header .fa {
+  transition: .3s transform ease-in-out;
+}
+.card-header .collapsed .fa {
+  transform: rotate(90deg);
+}
+
+.single-line-tabs {
+  padding-top: 10px;
+  height: 60px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 0px;
+  bottom: 4px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  box-shadow: 0 0px 15px #2020203d;
+  background: white;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+input:checked + .slider {
+  background-color: #4083b6;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #4083b6;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(24px);
+  -ms-transform: translateX(24px);
+  transform: translateX(24px);
+  background: white;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+table.dataTable td, table.dataTable tr {
+    vertical-align: middle;
+}
+
+body.theme-dark code {
+    color: #ccd2d8!important;
+}
+
+body.theme-light code {
+    color: #000000!important;
+}
+
+.text-wrap {
+    word-wrap: break-word; 
+    min-width: 600px; 
+    max-width: 600px; 
+    white-space: normal;
+}
+
+</style>
+</head>
+<body class="theme-dark">
+<script>
+    function setTheme(themeName) {
+        localStorage.setItem('theme', themeName);
+        document.body.className = themeName;
+    }
+
+    function toggleTheme() {
+        if (localStorage.getItem('theme') === 'theme-light') {
+            setTheme('theme-dark');
+        } else {
+            setTheme('theme-light');
+        }
+    }
+</script>
+  <div class="container">
+        <div class="container">
+            <label>Light</label>
+            <label id="switch" class="switch">
+                <input type="checkbox" onchange="toggleTheme()" id="slider">
+                <span class="slider round"></span>
+            </label>
+            <label>Dark</label>
+        </div>
+        <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-pills mb-3 nav-justified" id="pills-tab" role="tablist">
+            <li class="nav-item bg-info active" data-toggle="tooltip" title="Click to view the Summary">
+                <a class="nav-link text-white" id="pills-summary-tab" data-toggle="pill" href="#pills-summary" role="tab" aria-controls="pills-summary" aria-selected="true">Summary</a>
+            </li>
+            <li class="nav-item bg-success" data-toggle="tooltip" title="Click to view the Requests">
+                <a class="nav-link text-white" id="pills-requests-tab" data-toggle="pill" href="#pills-requests" role="tab" aria-controls="pills-requests" aria-selected="false">Total Requests <span class="badge badge-light">5</span></a>
+            </li>
+            <li class="nav-item bg-danger" data-toggle="tooltip" title="Click to view the Failed Tests">
+                <a class="nav-link text-white" id="pills-failed-tab" data-toggle="pill" href="#pills-failed" role="tab" aria-controls="pills-failed" aria-selected="false">Failed Tests <span class="badge badge-light">0</span></a>
+            </li>
+            <li class="nav-item bg-warning" data-toggle="tooltip" title="Click to view the Skipped Tests">
+                <a class="nav-link text-white" id="pills-skipped-tab" data-toggle="pill" href="#pills-skipped" role="tab" aria-controls="pills-skipped" aria-selected="false">Skipped Tests <span class="badge badge-light">0</span></a>
+            </li>
+            </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-summary" role="tabcard" aria-labelledby="pills-summary-tab">
+<div class="row">
+  <div class="col-md-9 col-lg-12 main">
+   <h1 class="display-2 text-center">Newman Run Dashboard</h1>
+   <h5 class="text-center">Wednesday, 17 December 2025 13:08:21</h5>
+   <div class="row">
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-success">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-retweet fa-5x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Iterations</h6>
+       <h1 class="display-1">1</h1>
+      </div>
+     </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-danger">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-list fa-4x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Assertions</h6>
+       <h1 class="display-1">0</h1>
+      </div>
+     </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-info">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-plus-circle fa-5x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Failed Tests</h6>
+       <h1 class="display-1">0</h1>
+      </div>
+     </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-warning">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-share fa-5x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Skipped Tests</h6>
+       <h1 class="display-1">0</h1>
+      </div>
+     </div>
+    </div>
+   </div>
+   <hr>
+    <div class="row">
+    <div class="col">
+        <div class="row">
+        <div class="col-sm-12 mb-3">
+            <div class="card border-info">
+                <div class="card-body">
+                <h5 class="card-title text-uppercase text-white text-center bg-info">File Information</h5>
+                <span><i class="fas fa-file-code"></i></span><strong> Collection:</strong> Module_4_API<br>
+                
+                
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-12 mb-3">
+            <div class="card border-info">
+                <div class="card-body">
+                <h5 class="card-title text-uppercase text-white text-center bg-info">Timings and Data</h5>
+                <span><i class="fas fa-stopwatch"></i></span><strong> Total run duration:</strong> 753ms<br>
+                <span><i class="fas fa-database"></i></span><strong> Total data received:</strong> 22.32KB<br>
+                <span><i class="fas fa-stopwatch"></i></span><strong> Average response time:</strong> 74ms<br>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-12 mb-3">
+            <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-inverse">
+                    <tr class="text-center">
+                        <th class="text-uppercase">Summary Item</th>
+                        <th class="text-uppercase">Total</th>
+                        <th class="text-uppercase">Failed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Requests</td>
+                        <td class="text-center">5</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                        <td>Prerequest Scripts</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                        <td>Test Scripts</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr class="">
+                        <td>Assertions</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr class="">
+                        <td>Skipped Tests</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">-</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+    <hr>
+   </div>
+   </div>
+  </div>
+ </div>
+        </div>
+            <div class="tab-pane fade" id="pills-failed" role="tabcard" aria-labelledby="pills-failed-tab">
+                <button id="topOfFailuresScreen" class="btn btn-outline-success btn-sm backToTop" onclick="topFunction()">Go To Top</button>
+
+                <div class="alert alert-success text-uppercase text-center">
+                     <br><br><h1 class="text-center">There are no failed tests <span><i class="far fa-thumbs-up"></i></span></h1><br><br>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pills-skipped" role="tabcard" aria-labelledby="pills-skipped-tab">
+                <button id="topOfSkippedScreen" class="btn btn-outline-success btn-sm backToTop" onclick="topFunction()">Go To Top</button>
+
+                <div class="alert alert-success text-uppercase text-center">
+                    <br><br><h1 class="text-center">There are no skipped tests <span><i class="far fa-thumbs-up"></i></span></h1><br><br>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-requests" role="tabcard" aria-labelledby="pills-requests-tab">
+
+            <button id="topOfRequestsScreen" class="btn btn-outline-success btn-sm backToTop" onclick="topFunction()">Go To Top</button>
+
+            <div class="btn-group float-right" role="group" aria-label="Button Group">
+                <button id="openAll" class="btn btn-outline-success btn-sm float-right" style="text-align: center; width: 140px;">Expand Folders</button>
+                <button id="openAllRequests" class="btn btn-outline-success btn-sm float-right" style="text-align: center; width: 140px;">Expand Requests</button>
+            </div>
+
+    <div class="text-uppercase" id="execution-menu">
+        <h5>1 Iteration available to view</h5>
+        
+        <nav class="table-responsive">
+        <ul class="nav single-line-tabs" id="iterationList">
+        </ul>
+        </nav>
+    </div>
+    <h6 class="text-uppercase text-muted" id="iterationSelected" style="padding-top: 10px;"></h6>
+	<div class="tab-content" id="execution-data">
+            <div id="folder-5f250252-32ed-4bba-ab96-c05756704789" class="card-deck iteration-0">
+            <div class="row iteration-0">
+                <div class="col-sm-12 mb-3 iteration-0">
+                <div class="card iteration-0">
+                    <div class="card-header  bg-success iteration-0">
+                        <a data-toggle="collapse" href="#" data-target="#collapse-5f250252-32ed-4bba-ab96-c05756704789" aria-expanded="false" aria-controls="collapse" id="requests-5f250252-32ed-4bba-ab96-c05756704789" class="collapsed text-white z-block">
+                    Iteration: 1 - SAP-DT POST API <i class="float-lg-right fa fa-chevron-down" style="padding-top: 5px;"></i>
+                </a>
+                    </div>
+                    <div id="collapse-5f250252-32ed-4bba-ab96-c05756704789" class="collapse" aria-labelledby="requests-5f250252-32ed-4bba-ab96-c05756704789">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request Method:</strong> <span class="badge-outline-success badge badge-success"> POST</span><br>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request URL:</strong> <a href="https://dev-durotrace-api.azurewebsites.net/api/smartscandispatch/generate" target="_blank">https://dev-durotrace-api.azurewebsites.net/api/smartscandispatch/generate</a><br>
+                                    </div>
+                                </div>
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Response Code:</strong> <span class="float-right badge-outline badge badge-success"> 200 - OK</span><br>
+                                    <span><i class="fas fa-stopwatch"></i></span><strong> Mean time per request:</strong> <span class="float-right badge-outline badge badge-success"> 254ms</span><br>
+                                    <span><i class="fas fa-database"></i></span><strong> Mean size per request:</strong> <span class="float-right badge-outline badge badge-success"> 95B</span><br>
+                                    <hr>
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Test Pass Percentage</h5>
+                                    <div>
+                                        <div class="progress" style="height: 40px;">
+                                            <div class="progress-bar bg-success" style="width: 100%" role="progressbar">
+                                            <h5 class="text-uppercase text-white text-center" style="padding-top:5px;"><strong>No Tests for this request</strong></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-uppercase text-white text-center bg-info">Request Headers</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                            <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap">Content-Type</td>
+                                                        <td class="text-wrap">application/json</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">User-Agent</td>
+                                                        <td class="text-wrap">PostmanRuntime/7.39.1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept</td>
+                                                        <td class="text-wrap">*/*</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cache-Control</td>
+                                                        <td class="text-wrap">no-cache</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Postman-Token</td>
+                                                        <td class="text-wrap">fbccad0e-8466-4581-8bfa-b91502269c25</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Host</td>
+                                                        <td class="text-wrap">dev-durotrace-api.azurewebsites.net</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept-Encoding</td>
+                                                        <td class="text-wrap">gzip, deflate, br</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Connection</td>
+                                                        <td class="text-wrap">keep-alive</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Content-Length</td>
+                                                        <td class="text-wrap">1531</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Body</h5>
+                                        <div class="dyn-height">
+                                            <pre><code id="copyReqText-0" class="prettyPrint">{
+            &quot;order&quot;: [
+                {
+                    &quot;transactiontype&quot;: &quot;OBD_ORDER&quot;,
+                    &quot;obdnumber&quot;: &quot;6060&quot;,
+                    &quot;obddate&quot;: &quot;27/11/2025&quot;,
+                    &quot;obdtime&quot;: &quot;10:24:35&quot;,
+                    &quot;plantcode&quot;: &quot;P005&quot;,
+                    &quot;obdstatus&quot;: &quot;OPEN&quot;,
+                    &quot;customerCode&quot;: &quot;&quot;,
+                    &quot;customerName&quot;: &quot;&quot;,
+                    &quot;items&quot;: [
+                        {
+                            &quot;itemnumber&quot;: &quot;1&quot;,
+                            &quot;materialcode&quot;: &quot;LIVE123&quot;,
+                            &quot;materialdescription&quot;: &quot;Duroflex Sofa 6x6&quot;,
+                            &quot;deliveryquantity&quot;: 5,
+                            &quot;storagelocation&quot;: &quot;0001&quot;,
+                            &quot;uom&quot;: &quot;EA&quot;,
+                            &quot;lineorderstatus&quot;: &quot;C&quot;,
+                            &quot;l1code&quot;: &quot;L1-F&quot;,
+                            &quot;l1text&quot;: &quot;Furniture&quot;,
+                            &quot;l2code&quot;: &quot;L2-SF1&quot;,
+                            &quot;l2text&quot;: &quot;Sofas&quot;,
+                            &quot;l3code&quot;: &quot;L3-3S&quot;,
+                            &quot;l3text&quot;: &quot;3 Seater&quot;,
+                            &quot;l4code&quot;: &quot;L4-FB&quot;,
+                            &quot;l4text&quot;: &quot;Fabric&quot;,
+                            &quot;l5code&quot;: &quot;L5-STD&quot;,
+                            &quot;l5text&quot;: &quot;NEWSOFA&quot;,
+                            &quot;l6code&quot;: &quot;L6-WDL&quot;,
+                            &quot;l6text&quot;: &quot;Wooden Legs&quot;,
+                            &quot;remarks&quot;: &quot;Deliver within 7 days&quot;,
+                            &quot;attr1&quot;: &quot;Beige Color&quot;,
+                            &quot;attr2&quot;: &quot;Removable Covers&quot;,
+                            &quot;attr3&quot;: &quot;Soft Cushions&quot;,
+                            &quot;attr4&quot;: &quot;Modern Design&quot;,
+                            &quot;attr5&quot;: &quot;2 Year Warranty&quot;
+                        }
+                    ]
+                }
+            ]
+        }
+        </code></pre>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyReqText-0">Copy to Clipboard</button>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Headers</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                        <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Type</td>
+                                                    <td class="text-wrap">application/json; charset&#x3D;utf-8</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Date</td>
+                                                    <td class="text-wrap">Wed, 17 Dec 2025 07:38:18 GMT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Server</td>
+                                                    <td class="text-wrap">Microsoft-IIS/10.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Encoding</td>
+                                                    <td class="text-wrap">gzip</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Set-Cookie</td>
+                                                    <td class="text-wrap">ARRAffinity&#x3D;01e7d695115490a180740add5e0df44e8b36c0fd4a390e02e6b276075e9e1ba9;Path&#x3D;/;HttpOnly;Secure;Domain&#x3D;dev-durotrace-api.azurewebsites.net</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Set-Cookie</td>
+                                                    <td class="text-wrap">ARRAffinitySameSite&#x3D;01e7d695115490a180740add5e0df44e8b36c0fd4a390e02e6b276075e9e1ba9;Path&#x3D;/;HttpOnly;SameSite&#x3D;None;Secure;Domain&#x3D;dev-durotrace-api.azurewebsites.net</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Transfer-Encoding</td>
+                                                    <td class="text-wrap">chunked</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Vary</td>
+                                                    <td class="text-wrap">Accept-Encoding</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Powered-By</td>
+                                                    <td class="text-wrap">ASP.NET</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Body</h5>
+                                        <div class="dyn-height">
+                                                <pre><code id="copyText-8040c978-0785-4584-91b4-e3c2fcb34db4" class="prettyPrint">{&quot;result&quot;:[{&quot;orderNumber&quot;:&quot;6060&quot;,&quot;itemNumber&quot;:1,&quot;statusType&quot;:&quot;Success&quot;,&quot;statusMsg&quot;:&quot;Success&quot;}]}</code></pre>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyText-8040c978-0785-4584-91b4-e3c2fcb34db4">Copy to Clipboard</button>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card border-info">
+                                <div class="card-body">
+                                <h5 class="card-title text-uppercase text-white text-center bg-info">Test Information</h5>
+                                    <h5 class="alert alert-success text-uppercase text-center">No Tests for this request</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div id="folder-177dba9e-57dc-4164-b834-eb7eca83bce6" class="card-deck iteration-0">
+            <div class="row iteration-0">
+                <div class="col-sm-12 mb-3 iteration-0">
+                <div class="card iteration-0">
+                    <div class="card-header  bg-success iteration-0">
+                        <a data-toggle="collapse" href="#" data-target="#collapse-177dba9e-57dc-4164-b834-eb7eca83bce6" aria-expanded="false" aria-controls="collapse" id="requests-177dba9e-57dc-4164-b834-eb7eca83bce6" class="collapsed text-white z-block">
+                    Iteration: 1 - OBD Headers Data <i class="float-lg-right fa fa-chevron-down" style="padding-top: 5px;"></i>
+                </a>
+                    </div>
+                    <div id="collapse-177dba9e-57dc-4164-b834-eb7eca83bce6" class="collapse" aria-labelledby="requests-177dba9e-57dc-4164-b834-eb7eca83bce6">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request Method:</strong> <span class="badge-outline-success badge badge-success"> GET</span><br>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request URL:</strong> <a href="https://dev-durotrace-api.azurewebsites.net/api/smartscandispatch/get-obd-headers-data" target="_blank">https://dev-durotrace-api.azurewebsites.net/api/smartscandispatch/get-obd-headers-data</a><br>
+                                    </div>
+                                </div>
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Response Code:</strong> <span class="float-right badge-outline badge badge-success"> 200 - OK</span><br>
+                                    <span><i class="fas fa-stopwatch"></i></span><strong> Mean time per request:</strong> <span class="float-right badge-outline badge badge-success"> 38ms</span><br>
+                                    <span><i class="fas fa-database"></i></span><strong> Mean size per request:</strong> <span class="float-right badge-outline badge badge-success"> 4.95KB</span><br>
+                                    <hr>
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Test Pass Percentage</h5>
+                                    <div>
+                                        <div class="progress" style="height: 40px;">
+                                            <div class="progress-bar bg-success" style="width: 100%" role="progressbar">
+                                            <h5 class="text-uppercase text-white text-center" style="padding-top:5px;"><strong>No Tests for this request</strong></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-uppercase text-white text-center bg-info">Request Headers</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                            <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap">User-Agent</td>
+                                                        <td class="text-wrap">PostmanRuntime/7.39.1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept</td>
+                                                        <td class="text-wrap">*/*</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cache-Control</td>
+                                                        <td class="text-wrap">no-cache</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Postman-Token</td>
+                                                        <td class="text-wrap">7a540ef5-ec78-40a6-bd50-5f6e77f547f8</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Host</td>
+                                                        <td class="text-wrap">dev-durotrace-api.azurewebsites.net</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept-Encoding</td>
+                                                        <td class="text-wrap">gzip, deflate, br</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Connection</td>
+                                                        <td class="text-wrap">keep-alive</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cookie</td>
+                                                        <td class="text-wrap">ARRAffinity&#x3D;01e7d695115490a180740add5e0df44e8b36c0fd4a390e02e6b276075e9e1ba9; ARRAffinitySameSite&#x3D;01e7d695115490a180740add5e0df44e8b36c0fd4a390e02e6b276075e9e1ba9</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Headers</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                        <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Type</td>
+                                                    <td class="text-wrap">application/json; charset&#x3D;utf-8</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Date</td>
+                                                    <td class="text-wrap">Wed, 17 Dec 2025 07:38:18 GMT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Server</td>
+                                                    <td class="text-wrap">Microsoft-IIS/10.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Encoding</td>
+                                                    <td class="text-wrap">gzip</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Transfer-Encoding</td>
+                                                    <td class="text-wrap">chunked</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Vary</td>
+                                                    <td class="text-wrap">Accept-Encoding</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Powered-By</td>
+                                                    <td class="text-wrap">ASP.NET</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Body</h5>
+                                        <div class="dyn-height">
+                                                <pre><code id="copyText-e6c048a6-8cd0-4e27-a864-cea6a872e7dc" class="prettyPrint">{&quot;statusCode&quot;:200,&quot;message&quot;:&quot;OBDHeaders fetched successfully&quot;,&quot;data&quot;:{&quot;obd_headers&quot;:[{&quot;id&quot;:1,&quot;obd_header_code&quot;:&quot;9a789b80-f240-4a87-b78d-e54d5605eaca&quot;,&quot;transaction_type&quot;:&quot;OBD_ORDER&quot;,&quot;obd_number&quot;:50001234,&quot;obd_date&quot;:&quot;2025-07-15T00:00:00&quot;,&quot;obd_time&quot;:&quot;10:24:35&quot;,&quot;plant_code&quot;:&quot;P004&quot;,&quot;storage_location&quot;:null,&quot;customerCode&quot;:null,&quot;customerName&quot;:&quot;Customer1&quot;,&quot;scanned_status&quot;:&quot;Partial&quot;,&quot;scanned_by&quot;:null,&quot;created_at&quot;:&quot;2025-11-20T10:44:02.6333333&quot;,&quot;updated_at&quot;:&quot;2025-12-02T12:56:23.6824572&quot;,&quot;created_by&quot;:&quot;262e55fb-46c0-4c15-96e6-3bb10c70ec44&quot;,&quot;updated_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;id&quot;:6,&quot;obd_header_code&quot;:&quot;b646fdab-8a91-47e2-9fb2-613a373e904d&quot;,&quot;transaction_type&quot;:&quot;OBD_ORDER&quot;,&quot;obd_number&quot;:500012345,&quot;obd_date&quot;:&quot;2025-07-15T00:00:00&quot;,&quot;obd_time&quot;:&quot;10:24:39&quot;,&quot;plant_code&quot;:&quot;P002&quot;,&quot;storage_location&quot;:null,&quot;customerCode&quot;:null,&quot;customerName&quot;:&quot;Customer6&quot;,&quot;scanned_status&quot;:&quot;Partial&quot;,&quot;scanned_by&quot;:null,&quot;created_at&quot;:&quot;2025-11-25T10:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-01T14:45:17.5695689&quot;,&quot;created_by&quot;:&quot;5d5a37fb-dda5-41bf-b75b-1aec31f2960e&quot;,&quot;updated_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;id&quot;:11,&quot;obd_header_code&quot;:&quot;d3798f5e-bbf6-46b7-b250-5d4e68bcc70b&quot;,&quot;transaction_type&quot;:&quot;OBD_ORDER&quot;,&quot;obd_number&quot;:500012350,&quot;obd_date&quot;:&quot;2025-07-15T00:00:00&quot;,&quot;obd_time&quot;:&quot;10:24:44&quot;,&quot;plant_code&quot;:&quot;P004&quot;,&quot;storage_location&quot;:null,&quot;customerCode&quot;:null,&quot;customerName&quot;:null,&quot;scanned_status&quot;:&quot;Partial&quot;,&quot;scanned_by&quot;:null,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-08T16:23:48.8482048&quot;,&quot;created_by&quot;:&quot;69dc63cc-e922-4207-9a76-fb55debab975&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;id&quot;:10,&quot;obd_header_code&quot;:&quot;b13f5d7a-3aa9-464a-90d5-888f7de1f2c3&quot;,&quot;transaction_type&quot;:&quot;OBD_ORDER&quot;,&quot;obd_number&quot;:500012349,&quot;obd_date&quot;:&quot;2025-07-15T00:00:00&quot;,&quot;obd_time&quot;:&quot;10:24:43&quot;,&quot;plant_code&quot;:&quot;P004&quot;,&quot;storage_location&quot;:null,&quot;customerCode&quot;:null,&quot;customerName&quot;:null,&quot;scanned_status&quot;:&quot;Completed&quot;,&quot;scanned_by&quot;:null,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-08T16:58:52.1990238&quot;,&quot;created_by&quot;:&quot;f9001a6a-e1c3-498a-9d28-443059d1df47&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;id&quot;:9,&quot;obd_header_code&quot;:&quot;35c75da3-01f9-4adc-93fe-db3af06e3389&quot;,&quot;transaction_type&quot;:&quot;OBD_ORDER&quot;,&quot;obd_number&quot;:500012348,&quot;obd_date&quot;:&quot;2025-07-15T00:00:00&quot;,&quot;obd_time&quot;:&quot;10:24:42&quot;,&quot;plant_code&quot;:&quot;P004&quot;,&quot;storage_location&quot;:null,&quot;customerCode&quot;:null,&quot;customerName&quot;:null,&quot;scanned_status&quot;:&quot;Completed&quot;,&quot;scanned_by&quot;:null,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-08T16:58:27.2359328&quot;,&quot;created_by&quot;:&quot;fa94c679-cfec-42e7-9f98-2c6c1f0cd11c&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;id&quot;:8,&quot;obd_header_code&quot;:&quot;bc50025f-f159-4a0e-9b8c-10e39040c3c3&quot;,&quot;transaction_type&quot;:&quot;OBD_ORDER&quot;,&quot;obd_number&quot;:500012347,&quot;obd_date&quot;:&quot;2025-07-15T00:00:00&quot;,&quot;obd_time&quot;:&quot;10:24:41&quot;,&quot;plant_code&quot;:&quot;P001&quot;,&quot;storage_location&quot;:null,&quot;customerCode&quot;:null,&quot;customerName&quot;:null,&quot;scanned_status&quot;:&quot;Partial&quot;,&quot;scanned_by&quot;:null,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-11T12:58:32.7931065&quot;,&quot;created_by&quot;:&quot;b56c7b51-c0f8-4e8b-b3e9-00a6a099ff42&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;id&quot;:7,&quot;obd_header_code&quot;:&quot;d8013793-5b84-4ca9-b342-a167e3337888&quot;,&quot;transaction_type&quot;:&quot;OBD_ORDER&quot;,&quot;obd_number&quot;:500012346,&quot;obd_date&quot;:&quot;2025-07-15T00:00:00&quot;,&quot;obd_time&quot;:&quot;10:24:40&quot;,&quot;plant_code&quot;:&quot;P002&quot;,&quot;storage_location&quot;:null,&quot;customerCode&quot;:null,&quot;customerName&quot;:&quot;Customer7&quot;,&quot;scanned_status&quot;:&quot;Completed&quot;,&quot;scanned_by&quot;:null,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-09T10:27:19.7346342&quot;,&quot;created_by&quot;:&quot;35abc76a-1613-4e62-b239-fec921f4909b&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;id&quot;:5,&quot;obd_header_code&quot;:&quot;7febcace-2c57-4536-a6cc-001c78e7a4ca&quot;,&quot;transaction_type&quot;:&quot;OBD_ORDER&quot;,&quot;obd_number&quot;:500012344,&quot;obd_date&quot;:&quot;2025-07-15T00:00:00&quot;,&quot;obd_time&quot;:&quot;10:24:38&quot;,&quot;plant_code&quot;:&quot;P003&quot;,&quot;storage_location&quot;:null,&quot;customerCode&quot;:null,&quot;customerName&quot;:&quot;Customer5&quot;,&quot;scanned_status&quot;:&quot;Completed&quot;,&quot;scanned_by&quot;:null,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-09T10:28:59.0121552&quot;,&quot;created_by&quot;:&quot;51382a57-2dd4-40f0-8617-a95ddca73cbf&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;id&quot;:4,&quot;obd_header_code&quot;:&quot;34708331-a3d0-4b26-84e1-9e85e441b485&quot;,&quot;transaction_type&quot;:&quot;OBD_ORDER&quot;,&quot;obd_number&quot;:500012343,&quot;obd_date&quot;:&quot;2025-07-15T00:00:00&quot;,&quot;obd_time&quot;:&quot;10:24:37&quot;,&quot;plant_code&quot;:&quot;P003&quot;,&quot;storage_location&quot;:null,&quot;customerCode&quot;:null,&quot;customerName&quot;:&quot;Customer4&quot;,&quot;scanned_status&quot;:&quot;Completed&quot;,&quot;scanned_by&quot;:null,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-08T17:44:12.1239816&quot;,&quot;created_by&quot;:&quot;44796791-abd7-4d30-b817-2f4c22e9a32e&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;id&quot;:3,&quot;obd_header_code&quot;:&quot;b09cac2a-dcb4-4374-826e-8471666f15b8&quot;,&quot;transaction_type&quot;:&quot;OBD_ORDER&quot;,&quot;obd_number&quot;:500012342,&quot;obd_date&quot;:&quot;2025-07-15T00:00:00&quot;,&quot;obd_time&quot;:&quot;10:24:36&quot;,&quot;plant_code&quot;:&quot;P003&quot;,&quot;storage_location&quot;:null,&quot;customerCode&quot;:null,&quot;customerName&quot;:&quot;Customer3&quot;,&quot;scanned_status&quot;:&quot;Completed&quot;,&quot;scanned_by&quot;:null,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-11T13:04:50.9228013&quot;,&quot;created_by&quot;:&quot;19b698f6-69ea-494c-9dd7-b32311b9f1f6&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;}],&quot;total_obd_headers_count&quot;:54}}</code></pre>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyText-e6c048a6-8cd0-4e27-a864-cea6a872e7dc">Copy to Clipboard</button>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card border-info">
+                                <div class="card-body">
+                                <h5 class="card-title text-uppercase text-white text-center bg-info">Test Information</h5>
+                                    <h5 class="alert alert-success text-uppercase text-center">No Tests for this request</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div id="folder-6953e82e-3589-416f-8eeb-5272a7ec7b33" class="card-deck iteration-0">
+            <div class="row iteration-0">
+                <div class="col-sm-12 mb-3 iteration-0">
+                <div class="card iteration-0">
+                    <div class="card-header  bg-success iteration-0">
+                        <a data-toggle="collapse" href="#" data-target="#collapse-6953e82e-3589-416f-8eeb-5272a7ec7b33" aria-expanded="false" aria-controls="collapse" id="requests-6953e82e-3589-416f-8eeb-5272a7ec7b33" class="collapsed text-white z-block">
+                    Iteration: 1 - OBD Details Data <i class="float-lg-right fa fa-chevron-down" style="padding-top: 5px;"></i>
+                </a>
+                    </div>
+                    <div id="collapse-6953e82e-3589-416f-8eeb-5272a7ec7b33" class="collapse" aria-labelledby="requests-6953e82e-3589-416f-8eeb-5272a7ec7b33">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request Method:</strong> <span class="badge-outline-success badge badge-success"> GET</span><br>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request URL:</strong> <a href="https://dev-durotrace-api.azurewebsites.net/api/smartscandispatch/get-obd-details-data?OBD_header_code%20%27OR%20%271%27&#x3D;%271" target="_blank">https://dev-durotrace-api.azurewebsites.net/api/smartscandispatch/get-obd-details-data?OBD_header_code%20%27OR%20%271%27&#x3D;%271</a><br>
+                                    </div>
+                                </div>
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Response Code:</strong> <span class="float-right badge-outline badge badge-success"> 200 - OK</span><br>
+                                    <span><i class="fas fa-stopwatch"></i></span><strong> Mean time per request:</strong> <span class="float-right badge-outline badge badge-success"> 30ms</span><br>
+                                    <span><i class="fas fa-database"></i></span><strong> Mean size per request:</strong> <span class="float-right badge-outline badge badge-success"> 17.18KB</span><br>
+                                    <hr>
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Test Pass Percentage</h5>
+                                    <div>
+                                        <div class="progress" style="height: 40px;">
+                                            <div class="progress-bar bg-success" style="width: 100%" role="progressbar">
+                                            <h5 class="text-uppercase text-white text-center" style="padding-top:5px;"><strong>No Tests for this request</strong></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-uppercase text-white text-center bg-info">Request Headers</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                            <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap">User-Agent</td>
+                                                        <td class="text-wrap">PostmanRuntime/7.39.1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept</td>
+                                                        <td class="text-wrap">*/*</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cache-Control</td>
+                                                        <td class="text-wrap">no-cache</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Postman-Token</td>
+                                                        <td class="text-wrap">ee998000-949c-4e09-8ac0-febb01d70921</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Host</td>
+                                                        <td class="text-wrap">dev-durotrace-api.azurewebsites.net</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept-Encoding</td>
+                                                        <td class="text-wrap">gzip, deflate, br</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Connection</td>
+                                                        <td class="text-wrap">keep-alive</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cookie</td>
+                                                        <td class="text-wrap">ARRAffinity&#x3D;01e7d695115490a180740add5e0df44e8b36c0fd4a390e02e6b276075e9e1ba9; ARRAffinitySameSite&#x3D;01e7d695115490a180740add5e0df44e8b36c0fd4a390e02e6b276075e9e1ba9</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Headers</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                        <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Type</td>
+                                                    <td class="text-wrap">application/json; charset&#x3D;utf-8</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Date</td>
+                                                    <td class="text-wrap">Wed, 17 Dec 2025 07:38:19 GMT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Server</td>
+                                                    <td class="text-wrap">Microsoft-IIS/10.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Encoding</td>
+                                                    <td class="text-wrap">gzip</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Transfer-Encoding</td>
+                                                    <td class="text-wrap">chunked</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Vary</td>
+                                                    <td class="text-wrap">Accept-Encoding</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Powered-By</td>
+                                                    <td class="text-wrap">ASP.NET</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Body</h5>
+                                        <div class="dyn-height">
+                                                <pre><code id="copyText-d05d8f4c-063a-442a-9678-cb7936973231" class="prettyPrint">{&quot;statusCode&quot;:200,&quot;message&quot;:&quot;OBDDetails fetched successfully&quot;,&quot;data&quot;:{&quot;obd_details&quot;:[{&quot;id&quot;:1,&quot;obd_details_code&quot;:&quot;f044b7bd-9d30-4e80-b77a-763fe151d3c4&quot;,&quot;obd_header_code&quot;:&quot;9a789b80-f240-4a87-b78d-e54d5605eaca&quot;,&quot;obd_number&quot;:50001234,&quot;item_number&quot;:10,&quot;material_code&quot;:&quot;MAT123456&quot;,&quot;material_description&quot;:&quot;Duroflex Mattress 6x6&quot;,&quot;delivery_quantity&quot;:10.0,&quot;quantity_scanned&quot;:18,&quot;uom&quot;:&quot;EA&quot;,&quot;created_at&quot;:&quot;2025-11-20T10:44:02.6333333&quot;,&quot;updated_at&quot;:&quot;2025-12-09T09:38:58.4533333&quot;,&quot;created_by&quot;:&quot;9a5a8a90-d490-4a6d-bf5b-57892a595ae5&quot;,&quot;updated_by&quot;:&quot;451edc9a-55c8-4a84-9541-9d51fd26d6cb&quot;,&quot;serials&quot;:[{&quot;serial_number&quot;:&quot;P002018S2yggSeD30I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-01T00:10:45.924947&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201fD5DI7uoBH0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-01T18:17:52.736927&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P002019J1ArTmPIY0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-01T18:25:19.3595009&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201eFY7KQ3Vnj0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-01T18:27:30.964529&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201496BPCk4Um0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-02T10:32:38.5395832&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201SD4XCW6wJm0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-02T10:35:38.952031&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201uwi2l5uQYm0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-02T10:44:59.502325&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P002016OZFTOdZ970I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-02T11:39:05.1120999&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201ue8o0cTthd0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-02T11:41:41.6176628&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201TWzq16O3430I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-02T11:17:06.6118611&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201igHYcMZ2590I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-02T11:22:42.5935249&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201087laYFYfD0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-02T11:25:59.1961933&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201unD0jtmDJ50I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-02T11:43:30.1148667&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201gj3wiilII60I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-02T11:34:39.8786657&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201jQn9lb9Ewu0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-02T11:59:31.5627008&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201vRgzr89yQ60I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-02T12:52:48.5049875&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201foYuAE9y2V0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-02T12:53:58.3324474&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P0020151kqGRq9D00I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-02T12:56:23.6824572&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;}],&quot;scanned_status&quot;:&quot;Partial&quot;},{&quot;id&quot;:11,&quot;obd_details_code&quot;:&quot;5cad4d4f-e993-4d42-9f61-51c3fc77cce7&quot;,&quot;obd_header_code&quot;:&quot;d3798f5e-bbf6-46b7-b250-5d4e68bcc70b&quot;,&quot;obd_number&quot;:500012350,&quot;item_number&quot;:100,&quot;material_code&quot;:&quot;MAT10&quot;,&quot;material_description&quot;:&quot;Duroflex Mattress Model 10&quot;,&quot;delivery_quantity&quot;:13.0,&quot;quantity_scanned&quot;:2,&quot;uom&quot;:&quot;EA&quot;,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-08T16:23:48.8482048&quot;,&quot;created_by&quot;:&quot;3c45c2ba-4130-4a93-9b5d-c212d7197b99&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;,&quot;serials&quot;:[{&quot;serial_number&quot;:&quot;P00203tTQP9ywSq80E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:23:48.8482048&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203s4QL4an7NS0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:23:24.4631692&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;}],&quot;scanned_status&quot;:&quot;Partial&quot;},{&quot;id&quot;:10,&quot;obd_details_code&quot;:&quot;01670db3-1beb-48a3-85a9-31a37d1f7027&quot;,&quot;obd_header_code&quot;:&quot;b13f5d7a-3aa9-464a-90d5-888f7de1f2c3&quot;,&quot;obd_number&quot;:500012349,&quot;item_number&quot;:90,&quot;material_code&quot;:&quot;MAT9&quot;,&quot;material_description&quot;:&quot;Duroflex Mattress Model 9&quot;,&quot;delivery_quantity&quot;:6.0,&quot;quantity_scanned&quot;:6,&quot;uom&quot;:&quot;EA&quot;,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-08T16:58:52.1990238&quot;,&quot;created_by&quot;:&quot;f85bec3c-f769-45bd-a9a7-a941b873a08f&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;,&quot;serials&quot;:[{&quot;serial_number&quot;:&quot;P00203IkqU20tX3S0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:54:01.55648&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203w2XlRs3eSy0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:58:46.1902717&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P002038veDi1NWwf0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:58:44.6078228&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203QMVZ8oWb1M0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:58:47.5364664&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203sTC4c82D8H0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:58:49.8381744&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203Janw4ucS5g0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:58:52.1990238&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;}],&quot;scanned_status&quot;:&quot;Completed&quot;},{&quot;id&quot;:9,&quot;obd_details_code&quot;:&quot;74df82a4-1024-418d-bff2-2ac26d394f6e&quot;,&quot;obd_header_code&quot;:&quot;35c75da3-01f9-4adc-93fe-db3af06e3389&quot;,&quot;obd_number&quot;:500012348,&quot;item_number&quot;:80,&quot;material_code&quot;:&quot;MAT8&quot;,&quot;material_description&quot;:&quot;Duroflex Mattress Model 8&quot;,&quot;delivery_quantity&quot;:14.0,&quot;quantity_scanned&quot;:14,&quot;uom&quot;:&quot;EA&quot;,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-08T16:58:27.2359328&quot;,&quot;created_by&quot;:&quot;d32775b0-28bf-4518-88a7-3dfbb0d76b25&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;,&quot;serials&quot;:[{&quot;serial_number&quot;:&quot;P00203NH1g2JsZsA0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:57:16.6307676&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P002034yaKizi3PW0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:57:27.6529272&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203ylRPct644B0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:57:34.0712354&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203qOef7dQd4E0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:57:38.3924953&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P002032qSNWNkDf30E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:57:39.8011518&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P002035paQMP48RM0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:57:48.5229783&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P002031Ldky3t00c0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:57:51.9667273&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203UF6m5ujhc00E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:57:53.3597288&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203a1Y8GA7sDs0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:57:54.4084823&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203Eq2T9RU0L80E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:57:56.7564844&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P002030Wi6cWAcHu0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:57:57.773679&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203t2E5X0ooi50E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:57:58.83883&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203SGEuC9e3Ec0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:58:00.4974746&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P002031xgH4VczGs0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T16:58:27.2359328&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;}],&quot;scanned_status&quot;:&quot;Completed&quot;},{&quot;id&quot;:8,&quot;obd_details_code&quot;:&quot;ba9090f3-cef6-4ce9-ae3b-c0f01390e6a3&quot;,&quot;obd_header_code&quot;:&quot;bc50025f-f159-4a0e-9b8c-10e39040c3c3&quot;,&quot;obd_number&quot;:500012347,&quot;item_number&quot;:70,&quot;material_code&quot;:&quot;MAT7&quot;,&quot;material_description&quot;:&quot;Duroflex Mattress Model 7&quot;,&quot;delivery_quantity&quot;:7.0,&quot;quantity_scanned&quot;:4,&quot;uom&quot;:&quot;EA&quot;,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-11T12:58:32.7931065&quot;,&quot;created_by&quot;:&quot;aae203e9-a187-4673-bf58-8afc9bc4098e&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;,&quot;serials&quot;:[{&quot;serial_number&quot;:&quot;P00303xK0WC0XJdG0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-11T12:58:32.7931065&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303t0POy4bGM50E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-11T12:58:31.9375897&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P002015N2Av3t9Ds0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T18:03:36.7119158&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00201H0R2PPOoTm0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T18:02:46.471499&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;}],&quot;scanned_status&quot;:&quot;Partial&quot;},{&quot;id&quot;:7,&quot;obd_details_code&quot;:&quot;d07912d4-c7f2-437f-b583-06a0d69d6157&quot;,&quot;obd_header_code&quot;:&quot;d8013793-5b84-4ca9-b342-a167e3337888&quot;,&quot;obd_number&quot;:500012346,&quot;item_number&quot;:60,&quot;material_code&quot;:&quot;MAT6&quot;,&quot;material_description&quot;:&quot;Duroflex Mattress Model 6&quot;,&quot;delivery_quantity&quot;:9.0,&quot;quantity_scanned&quot;:9,&quot;uom&quot;:&quot;EA&quot;,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-09T10:27:19.7346342&quot;,&quot;created_by&quot;:&quot;8761e2a9-3b01-48c9-8757-669653994004&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;,&quot;serials&quot;:[{&quot;serial_number&quot;:&quot;P00303MU7SJSd4H80E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:26:26.4199332&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303nrY53CuFDw0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:26:35.008789&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303ok5tq2dDWU0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:26:39.1717&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303fie89hnrTJ0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:26:41.2924579&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P003031DEn8paCkt0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:26:43.8759697&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303eTo6NoH3XU0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:26:51.7007486&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303DPQiVO9g3U0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:26:54.4250504&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303jXzeA2RbL30E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:27:16.1495786&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303UWBU0t9zM80E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:27:19.7346342&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;}],&quot;scanned_status&quot;:&quot;Completed&quot;},{&quot;id&quot;:6,&quot;obd_details_code&quot;:&quot;9639045f-dfa5-4150-9850-8a8df29f514d&quot;,&quot;obd_header_code&quot;:&quot;b646fdab-8a91-47e2-9fb2-613a373e904d&quot;,&quot;obd_number&quot;:500012345,&quot;item_number&quot;:50,&quot;material_code&quot;:&quot;MAT5&quot;,&quot;material_description&quot;:&quot;Duroflex Mattress Model 5&quot;,&quot;delivery_quantity&quot;:11.0,&quot;quantity_scanned&quot;:1,&quot;uom&quot;:&quot;EA&quot;,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-01T14:45:17.5695689&quot;,&quot;created_by&quot;:&quot;6e923291-52e7-4e13-98d0-42eb8dda1a21&quot;,&quot;updated_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;,&quot;serials&quot;:[{&quot;serial_number&quot;:&quot;P001013JvVZO8vGe0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-01T14:45:17.5695689&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;}],&quot;scanned_status&quot;:&quot;Partial&quot;},{&quot;id&quot;:5,&quot;obd_details_code&quot;:&quot;54a261d1-7329-4eea-8f89-70a0830f8bf5&quot;,&quot;obd_header_code&quot;:&quot;7febcace-2c57-4536-a6cc-001c78e7a4ca&quot;,&quot;obd_number&quot;:500012344,&quot;item_number&quot;:40,&quot;material_code&quot;:&quot;MAT4&quot;,&quot;material_description&quot;:&quot;Duroflex Mattress Model 4&quot;,&quot;delivery_quantity&quot;:15.0,&quot;quantity_scanned&quot;:15,&quot;uom&quot;:&quot;EA&quot;,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-09T10:28:59.0121552&quot;,&quot;created_by&quot;:&quot;8b347d12-d760-44e0-9912-466f8ca50862&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;,&quot;serials&quot;:[{&quot;serial_number&quot;:&quot;P002033BKNWp5h0E0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T15:00:22.2858438&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203uep09cznTS0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T15:00:57.03823&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203bDToJiPX460E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T15:04:19.4065628&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P003032bVlr68ey90E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:28:31.9906666&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303L3VY43M0Lp0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:28:35.3396232&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303S3IUR9BLM90E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:28:37.5772492&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303pzHZs5zG770E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:28:39.7526145&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303if1cD6Vpjg0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:28:42.0690437&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P003037K0nMiabS00E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:28:44.5284285&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303Z8U3WNAF210E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:28:46.6100299&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303647QENM4er0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:28:48.9424622&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303zeYF1ihZ5n0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:28:50.7275536&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303iLF2fX6bdK0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:28:54.0004212&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303cpG4N4B3dl0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:28:56.336361&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303HiCk7Mo1Pr0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-09T10:28:59.0121552&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;}],&quot;scanned_status&quot;:&quot;Completed&quot;},{&quot;id&quot;:4,&quot;obd_details_code&quot;:&quot;623224ae-cd5e-4a6b-849a-35986fa418d4&quot;,&quot;obd_header_code&quot;:&quot;34708331-a3d0-4b26-84e1-9e85e441b485&quot;,&quot;obd_number&quot;:500012343,&quot;item_number&quot;:30,&quot;material_code&quot;:&quot;MAT3&quot;,&quot;material_description&quot;:&quot;Duroflex Mattress Model 3&quot;,&quot;delivery_quantity&quot;:8.0,&quot;quantity_scanned&quot;:8,&quot;uom&quot;:&quot;EA&quot;,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-08T17:44:12.1239816&quot;,&quot;created_by&quot;:&quot;eff32c81-ba2a-465b-a5bb-9d0704dbabb4&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;,&quot;serials&quot;:[{&quot;serial_number&quot;:&quot;P00203GqCDkse30q0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T17:44:00.7602495&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P002036tGtfTNrF70E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T17:44:02.2617155&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203P8qbN5Ty6h0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T17:44:03.3883488&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00203xQ4EGWex1i0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T17:44:04.3750291&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00201MZ4J1HRYI70I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T17:44:06.4106276&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00201m6q7i6wUwq0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T17:44:08.8053374&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P002018CzeF8q1W90I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T17:44:10.4027254&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00201ZJoG76RfKx0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T17:44:12.1239816&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;}],&quot;scanned_status&quot;:&quot;Completed&quot;},{&quot;id&quot;:3,&quot;obd_details_code&quot;:&quot;24bbe2a1-b7b3-486b-9d72-5a233260d019&quot;,&quot;obd_header_code&quot;:&quot;b09cac2a-dcb4-4374-826e-8471666f15b8&quot;,&quot;obd_number&quot;:500012342,&quot;item_number&quot;:20,&quot;material_code&quot;:&quot;MAT2&quot;,&quot;material_description&quot;:&quot;Duroflex Mattress Model 2&quot;,&quot;delivery_quantity&quot;:12.0,&quot;quantity_scanned&quot;:12,&quot;uom&quot;:&quot;EA&quot;,&quot;created_at&quot;:&quot;2025-11-25T11:38:03.62&quot;,&quot;updated_at&quot;:&quot;2025-12-11T13:04:50.9228013&quot;,&quot;created_by&quot;:&quot;639e0439-6f2e-4acf-b9da-46831333c8f7&quot;,&quot;updated_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;,&quot;serials&quot;:[{&quot;serial_number&quot;:&quot;P00201Fhz5xDDdT00I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T11:58:21.3572216&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201D3sc7Ffwej0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T12:13:00.4542054&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00201XRQeJGg9O70I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T12:14:55.9791476&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00202ani3PJ4Ih90I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T12:46:46.1315512&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00101T3G4CZpUSi0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T12:47:45.1809042&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00101QX0QNaR3To0I&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T12:32:21.1122934&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00203e2gb9n5DcJ0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T12:52:06.9604115&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00203oK9niKw2620E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T12:51:10.4013629&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00203oGCmG63pmc0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T12:50:30.2150621&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00203EaiYinE04r0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-08T12:55:04.1185668&quot;,&quot;scanned_by&quot;:&quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;},{&quot;serial_number&quot;:&quot;P00303RkI4C2sIZZ0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-11T13:01:12.9113694&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;},{&quot;serial_number&quot;:&quot;P00303BC6qZoA84y0E&quot;,&quot;scan_timestamp&quot;:&quot;2025-12-11T13:04:50.9228013&quot;,&quot;scanned_by&quot;:&quot;579d1a3c-2844-4d82-ad13-659436e798d2&quot;}],&quot;scanned_status&quot;:&quot;Completed&quot;}],&quot;total_obd_details_count&quot;:75}}</code></pre>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyText-d05d8f4c-063a-442a-9678-cb7936973231">Copy to Clipboard</button>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card border-info">
+                                <div class="card-body">
+                                <h5 class="card-title text-uppercase text-white text-center bg-info">Test Information</h5>
+                                    <h5 class="alert alert-success text-uppercase text-center">No Tests for this request</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div id="folder-c811f652-c99e-4790-9fa1-dd43ed684f7c" class="card-deck iteration-0">
+            <div class="row iteration-0">
+                <div class="col-sm-12 mb-3 iteration-0">
+                <div class="card iteration-0">
+                    <div class="card-header  bg-success iteration-0">
+                        <a data-toggle="collapse" href="#" data-target="#collapse-c811f652-c99e-4790-9fa1-dd43ed684f7c" aria-expanded="false" aria-controls="collapse" id="requests-c811f652-c99e-4790-9fa1-dd43ed684f7c" class="collapsed text-white z-block">
+                    Iteration: 1 - OBD Scan <i class="float-lg-right fa fa-chevron-down" style="padding-top: 5px;"></i>
+                </a>
+                    </div>
+                    <div id="collapse-c811f652-c99e-4790-9fa1-dd43ed684f7c" class="collapse" aria-labelledby="requests-c811f652-c99e-4790-9fa1-dd43ed684f7c">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request Method:</strong> <span class="badge-outline-success badge badge-success"> POST</span><br>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request URL:</strong> <a href="https://dev-durotrace-api.azurewebsites.net/api/smartscandispatch/scan" target="_blank">https://dev-durotrace-api.azurewebsites.net/api/smartscandispatch/scan</a><br>
+                                    </div>
+                                </div>
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Response Code:</strong> <span class="float-right badge-outline badge badge-success"> 400 - Bad Request</span><br>
+                                    <span><i class="fas fa-stopwatch"></i></span><strong> Mean time per request:</strong> <span class="float-right badge-outline badge badge-success"> 29ms</span><br>
+                                    <span><i class="fas fa-database"></i></span><strong> Mean size per request:</strong> <span class="float-right badge-outline badge badge-success"> 105B</span><br>
+                                    <hr>
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Test Pass Percentage</h5>
+                                    <div>
+                                        <div class="progress" style="height: 40px;">
+                                            <div class="progress-bar bg-success" style="width: 100%" role="progressbar">
+                                            <h5 class="text-uppercase text-white text-center" style="padding-top:5px;"><strong>No Tests for this request</strong></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-uppercase text-white text-center bg-info">Request Headers</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                            <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap">Content-Type</td>
+                                                        <td class="text-wrap">application/json</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">User-Agent</td>
+                                                        <td class="text-wrap">PostmanRuntime/7.39.1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept</td>
+                                                        <td class="text-wrap">*/*</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cache-Control</td>
+                                                        <td class="text-wrap">no-cache</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Postman-Token</td>
+                                                        <td class="text-wrap">f72a3108-2bff-40a4-9c17-dbe9887be068</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Host</td>
+                                                        <td class="text-wrap">dev-durotrace-api.azurewebsites.net</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept-Encoding</td>
+                                                        <td class="text-wrap">gzip, deflate, br</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Connection</td>
+                                                        <td class="text-wrap">keep-alive</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Content-Length</td>
+                                                        <td class="text-wrap">373</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cookie</td>
+                                                        <td class="text-wrap">ARRAffinity&#x3D;01e7d695115490a180740add5e0df44e8b36c0fd4a390e02e6b276075e9e1ba9; ARRAffinitySameSite&#x3D;01e7d695115490a180740add5e0df44e8b36c0fd4a390e02e6b276075e9e1ba9</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Body</h5>
+                                        <div class="dyn-height">
+                                            <pre><code id="copyReqText-3" class="prettyPrint">{
+            &quot;serial_number&quot;: &quot;P00203EaiYinE04r0E&quot;,
+            &quot;scanned_at&quot;: &quot;2025-12-08T07:11:09.350Z&quot;,
+            &quot;device_id&quot;: &quot;string&quot;,
+            &quot;obd_number&quot;: &quot;500012342&quot;,
+            &quot;material_code&quot;: &quot;string&quot;,
+            &quot;obd_details_code&quot;: &quot;24bbe2a1-b7b3-486b-9d72-5a233260d019&quot;,
+            &quot;obd_header_code&quot;: &quot;b09cac2a-dcb4-4374-826e-8471666f15b8&quot;,
+            &quot;user_code&quot;: &quot;3fa85f64-5717-4562-b3fc-2c963f66afa6&quot;
+        }</code></pre>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyReqText-3">Copy to Clipboard</button>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Headers</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                        <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Length</td>
+                                                    <td class="text-wrap">105</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Type</td>
+                                                    <td class="text-wrap">application/json; charset&#x3D;utf-8</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Date</td>
+                                                    <td class="text-wrap">Wed, 17 Dec 2025 07:38:19 GMT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Server</td>
+                                                    <td class="text-wrap">Microsoft-IIS/10.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Powered-By</td>
+                                                    <td class="text-wrap">ASP.NET</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Body</h5>
+                                        <div class="dyn-height">
+                                                <pre><code id="copyText-5eb547bc-e36b-4c5a-8c19-2300c4bf3c01" class="prettyPrint">{&quot;statusCode&quot;:400,&quot;message&quot;:&quot;SerialNumber already scanned for OBD (tracking_status_flag &#x3D; 3).&quot;,&quot;data&quot;:&quot;&quot;}</code></pre>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyText-5eb547bc-e36b-4c5a-8c19-2300c4bf3c01">Copy to Clipboard</button>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card border-info">
+                                <div class="card-body">
+                                <h5 class="card-title text-uppercase text-white text-center bg-info">Test Information</h5>
+                                    <h5 class="alert alert-success text-uppercase text-center">No Tests for this request</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div id="folder-8a7add05-b0a8-4488-8de7-fdf59f9924f9" class="card-deck iteration-0">
+            <div class="row iteration-0">
+                <div class="col-sm-12 mb-3 iteration-0">
+                <div class="card iteration-0">
+                    <div class="card-header  bg-success iteration-0">
+                        <a data-toggle="collapse" href="#" data-target="#collapse-8a7add05-b0a8-4488-8de7-fdf59f9924f9" aria-expanded="false" aria-controls="collapse" id="requests-8a7add05-b0a8-4488-8de7-fdf59f9924f9" class="collapsed text-white z-block">
+                    Iteration: 1 - get obd Customer <i class="float-lg-right fa fa-chevron-down" style="padding-top: 5px;"></i>
+                </a>
+                    </div>
+                    <div id="collapse-8a7add05-b0a8-4488-8de7-fdf59f9924f9" class="collapse" aria-labelledby="requests-8a7add05-b0a8-4488-8de7-fdf59f9924f9">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request Method:</strong> <span class="badge-outline-success badge badge-success"> GET</span><br>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request URL:</strong> <a href="https://dev-durotrace-api.azurewebsites.net/api/smartscandispatch/get-obd-customers" target="_blank">https://dev-durotrace-api.azurewebsites.net/api/smartscandispatch/get-obd-customers</a><br>
+                                    </div>
+                                </div>
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Response Code:</strong> <span class="float-right badge-outline badge badge-success"> 401 - Unauthorized</span><br>
+                                    <span><i class="fas fa-stopwatch"></i></span><strong> Mean time per request:</strong> <span class="float-right badge-outline badge badge-success"> 19ms</span><br>
+                                    <span><i class="fas fa-database"></i></span><strong> Mean size per request:</strong> <span class="float-right badge-outline badge badge-success"> 0B</span><br>
+                                    <hr>
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Test Pass Percentage</h5>
+                                    <div>
+                                        <div class="progress" style="height: 40px;">
+                                            <div class="progress-bar bg-success" style="width: 100%" role="progressbar">
+                                            <h5 class="text-uppercase text-white text-center" style="padding-top:5px;"><strong>No Tests for this request</strong></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-uppercase text-white text-center bg-info">Request Headers</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                            <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap">Authorization</td>
+                                                        <td class="text-wrap">Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoicHJlcmFuYS5yYXlAZHVyb2ZsZXh3b3JsZC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsInVzZXJjb2RlIjoiNTc5ZDFhM2MtMjg0NC00ZDgyLWFkMTMtNjU5NDM2ZTc5OGQyIiwiZXhwIjoxNzY1MTgyNDU4LCJpc3MiOiJEdXJvVHJhY2UuQVBJIiwiYXVkIjoiRHVyb1RyYWNlLkNsaWVudCJ9.Fz0HxObZUPWZprc_SFUwU9z4aU02zwD_S_-FJB7Jjn0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">User-Agent</td>
+                                                        <td class="text-wrap">PostmanRuntime/7.39.1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept</td>
+                                                        <td class="text-wrap">*/*</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cache-Control</td>
+                                                        <td class="text-wrap">no-cache</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Postman-Token</td>
+                                                        <td class="text-wrap">c071a8ab-4157-48ae-ab2b-96014f75acc9</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Host</td>
+                                                        <td class="text-wrap">dev-durotrace-api.azurewebsites.net</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept-Encoding</td>
+                                                        <td class="text-wrap">gzip, deflate, br</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Connection</td>
+                                                        <td class="text-wrap">keep-alive</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cookie</td>
+                                                        <td class="text-wrap">ARRAffinity&#x3D;01e7d695115490a180740add5e0df44e8b36c0fd4a390e02e6b276075e9e1ba9; ARRAffinitySameSite&#x3D;01e7d695115490a180740add5e0df44e8b36c0fd4a390e02e6b276075e9e1ba9</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Headers</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                        <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Length</td>
+                                                    <td class="text-wrap">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Date</td>
+                                                    <td class="text-wrap">Wed, 17 Dec 2025 07:38:19 GMT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Server</td>
+                                                    <td class="text-wrap">Microsoft-IIS/10.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">WWW-Authenticate</td>
+                                                    <td class="text-wrap">Bearer error&#x3D;&quot;invalid_token&quot;, error_description&#x3D;&quot;The token expired at &#x27;12/08/2025 08:27:38&#x27;&quot;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-Powered-By</td>
+                                                    <td class="text-wrap">ASP.NET</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Body</h5>
+                                    <h5 class="alert alert-success text-uppercase text-center">No Response Body for this request</h5>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card border-info">
+                                <div class="card-body">
+                                <h5 class="card-title text-uppercase text-white text-center bg-info">Test Information</h5>
+                                    <h5 class="alert alert-success text-uppercase text-center">No Tests for this request</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- Set slider initial position depending on the localstorage state -->
+
+<script>
+(function () {
+  var sliderChecked = true;
+  if (localStorage.getItem('theme') === 'theme-light') {
+    setTheme('theme-light');
+    sliderChecked = false;
+  } else {
+    setTheme('theme-dark');
+    sliderChecked = true;
+  }
+  $(document).ready( function () {
+    document.getElementById('slider').checked = sliderChecked;
+  });
+})();
+</script>
+
+<!-- Data Table Configuration -->
+
+<script>
+$(document).ready( function () {
+    $('.datatable').DataTable({
+        "retrieve": true,
+        "paging": false,
+        "info": false,
+        "fixedColumns":   {
+            "heightMatch": 'none'
+        }
+    });
+});
+</script>
+
+<!-- Tooltip Configuration -->
+
+<script>
+$(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip({
+        trigger : 'hover'
+    })
+})
+</script>
+
+<!-- Show/Hide The Folders -->
+
+<script>
+$('#openAll').on('click', function(e) {
+let clickCount = $(this).data("clickCount") || 1
+switch (clickCount){
+    case 1:
+            $('#folder-bb8ace92-65f4-4790-8cef-2d8d6260a980-iteration-0').removeClass('collapsed')
+            $('#folder-collapse-bb8ace92-65f4-4790-8cef-2d8d6260a980-iteration-0').addClass('show')
+        $('#openAll').html("Collapse Folders");
+        break;
+    case 2:
+            $('#folder-bb8ace92-65f4-4790-8cef-2d8d6260a980-iteration-0').addClass('collapsed')
+            $('#folder-collapse-bb8ace92-65f4-4790-8cef-2d8d6260a980-iteration-0').removeClass('show')
+        $('#openAll').html("Expand Folders");
+        break;
+}
+clickCount = clickCount > 1 ? 1 : ++clickCount;
+$(this).data("clickCount", clickCount)
+})
+</script>
+
+<!-- Show/Hide The Requests -->
+
+<script>
+$('#openAllRequests').on('click', function(e) {
+let clickCount = $(this).data("clickCount") || 1
+switch (clickCount){
+    case 1:
+            $('#requests-5f250252-32ed-4bba-ab96-c05756704789').removeClass('collapsed')
+            $('#collapse-5f250252-32ed-4bba-ab96-c05756704789').removeClass('collapsed')
+            $('#requests-5f250252-32ed-4bba-ab96-c05756704789').addClass('show')
+            $('#collapse-5f250252-32ed-4bba-ab96-c05756704789').addClass('show')
+            $('#requests-177dba9e-57dc-4164-b834-eb7eca83bce6').removeClass('collapsed')
+            $('#collapse-177dba9e-57dc-4164-b834-eb7eca83bce6').removeClass('collapsed')
+            $('#requests-177dba9e-57dc-4164-b834-eb7eca83bce6').addClass('show')
+            $('#collapse-177dba9e-57dc-4164-b834-eb7eca83bce6').addClass('show')
+            $('#requests-6953e82e-3589-416f-8eeb-5272a7ec7b33').removeClass('collapsed')
+            $('#collapse-6953e82e-3589-416f-8eeb-5272a7ec7b33').removeClass('collapsed')
+            $('#requests-6953e82e-3589-416f-8eeb-5272a7ec7b33').addClass('show')
+            $('#collapse-6953e82e-3589-416f-8eeb-5272a7ec7b33').addClass('show')
+            $('#requests-c811f652-c99e-4790-9fa1-dd43ed684f7c').removeClass('collapsed')
+            $('#collapse-c811f652-c99e-4790-9fa1-dd43ed684f7c').removeClass('collapsed')
+            $('#requests-c811f652-c99e-4790-9fa1-dd43ed684f7c').addClass('show')
+            $('#collapse-c811f652-c99e-4790-9fa1-dd43ed684f7c').addClass('show')
+            $('#requests-8a7add05-b0a8-4488-8de7-fdf59f9924f9').removeClass('collapsed')
+            $('#collapse-8a7add05-b0a8-4488-8de7-fdf59f9924f9').removeClass('collapsed')
+            $('#requests-8a7add05-b0a8-4488-8de7-fdf59f9924f9').addClass('show')
+            $('#collapse-8a7add05-b0a8-4488-8de7-fdf59f9924f9').addClass('show')
+        $('#openAllRequests').html("Collapse Requests");
+        break;
+    case 2:
+            $('#requests-5f250252-32ed-4bba-ab96-c05756704789').addClass('collapsed')
+            $('#collapse-5f250252-32ed-4bba-ab96-c05756704789').addClass('collapsed')
+            $('#requests-5f250252-32ed-4bba-ab96-c05756704789').removeClass('show')
+            $('#collapse-5f250252-32ed-4bba-ab96-c05756704789').removeClass('show')
+            $('#requests-177dba9e-57dc-4164-b834-eb7eca83bce6').addClass('collapsed')
+            $('#collapse-177dba9e-57dc-4164-b834-eb7eca83bce6').addClass('collapsed')
+            $('#requests-177dba9e-57dc-4164-b834-eb7eca83bce6').removeClass('show')
+            $('#collapse-177dba9e-57dc-4164-b834-eb7eca83bce6').removeClass('show')
+            $('#requests-6953e82e-3589-416f-8eeb-5272a7ec7b33').addClass('collapsed')
+            $('#collapse-6953e82e-3589-416f-8eeb-5272a7ec7b33').addClass('collapsed')
+            $('#requests-6953e82e-3589-416f-8eeb-5272a7ec7b33').removeClass('show')
+            $('#collapse-6953e82e-3589-416f-8eeb-5272a7ec7b33').removeClass('show')
+            $('#requests-c811f652-c99e-4790-9fa1-dd43ed684f7c').addClass('collapsed')
+            $('#collapse-c811f652-c99e-4790-9fa1-dd43ed684f7c').addClass('collapsed')
+            $('#requests-c811f652-c99e-4790-9fa1-dd43ed684f7c').removeClass('show')
+            $('#collapse-c811f652-c99e-4790-9fa1-dd43ed684f7c').removeClass('show')
+            $('#requests-8a7add05-b0a8-4488-8de7-fdf59f9924f9').addClass('collapsed')
+            $('#collapse-8a7add05-b0a8-4488-8de7-fdf59f9924f9').addClass('collapsed')
+            $('#requests-8a7add05-b0a8-4488-8de7-fdf59f9924f9').removeClass('show')
+            $('#collapse-8a7add05-b0a8-4488-8de7-fdf59f9924f9').removeClass('show')
+        $('#openAllRequests').html("Expand Requests");
+        break;
+}
+clickCount = clickCount > 1 ? 1 : ++clickCount;
+$(this).data("clickCount", clickCount)
+})
+</script>
+
+<!-- Show/Hide The Skipped Tests -->
+
+<script>
+$('#openAllSkipped').on('click', function(e) {
+let clickCount = $(this).data("clickCount") || 1
+switch (clickCount){
+    case 1:
+            $('#skipped-5f250252-32ed-4bba-ab96-c05756704789').removeClass('collapsed')
+            $('#skipped-collapse-5f250252-32ed-4bba-ab96-c05756704789').removeClass('collapsed')
+            $('#skipped-5f250252-32ed-4bba-ab96-c05756704789').addClass('show')
+            $('#skipped-collapse-5f250252-32ed-4bba-ab96-c05756704789').addClass('show')
+            $('#skipped-177dba9e-57dc-4164-b834-eb7eca83bce6').removeClass('collapsed')
+            $('#skipped-collapse-177dba9e-57dc-4164-b834-eb7eca83bce6').removeClass('collapsed')
+            $('#skipped-177dba9e-57dc-4164-b834-eb7eca83bce6').addClass('show')
+            $('#skipped-collapse-177dba9e-57dc-4164-b834-eb7eca83bce6').addClass('show')
+            $('#skipped-6953e82e-3589-416f-8eeb-5272a7ec7b33').removeClass('collapsed')
+            $('#skipped-collapse-6953e82e-3589-416f-8eeb-5272a7ec7b33').removeClass('collapsed')
+            $('#skipped-6953e82e-3589-416f-8eeb-5272a7ec7b33').addClass('show')
+            $('#skipped-collapse-6953e82e-3589-416f-8eeb-5272a7ec7b33').addClass('show')
+            $('#skipped-c811f652-c99e-4790-9fa1-dd43ed684f7c').removeClass('collapsed')
+            $('#skipped-collapse-c811f652-c99e-4790-9fa1-dd43ed684f7c').removeClass('collapsed')
+            $('#skipped-c811f652-c99e-4790-9fa1-dd43ed684f7c').addClass('show')
+            $('#skipped-collapse-c811f652-c99e-4790-9fa1-dd43ed684f7c').addClass('show')
+            $('#skipped-8a7add05-b0a8-4488-8de7-fdf59f9924f9').removeClass('collapsed')
+            $('#skipped-collapse-8a7add05-b0a8-4488-8de7-fdf59f9924f9').removeClass('collapsed')
+            $('#skipped-8a7add05-b0a8-4488-8de7-fdf59f9924f9').addClass('show')
+            $('#skipped-collapse-8a7add05-b0a8-4488-8de7-fdf59f9924f9').addClass('show')
+        $('#openAllSkipped').html("Collapse All Skipped Tests");
+        break;
+    case 2:
+            $('#skipped-5f250252-32ed-4bba-ab96-c05756704789').addClass('collapsed')
+            $('#skipped-collapse-5f250252-32ed-4bba-ab96-c05756704789').addClass('collapsed')
+            $('#skipped-5f250252-32ed-4bba-ab96-c05756704789').removeClass('show')
+            $('#skipped-collapse-5f250252-32ed-4bba-ab96-c05756704789').removeClass('show')
+            $('#skipped-177dba9e-57dc-4164-b834-eb7eca83bce6').addClass('collapsed')
+            $('#skipped-collapse-177dba9e-57dc-4164-b834-eb7eca83bce6').addClass('collapsed')
+            $('#skipped-177dba9e-57dc-4164-b834-eb7eca83bce6').removeClass('show')
+            $('#skipped-collapse-177dba9e-57dc-4164-b834-eb7eca83bce6').removeClass('show')
+            $('#skipped-6953e82e-3589-416f-8eeb-5272a7ec7b33').addClass('collapsed')
+            $('#skipped-collapse-6953e82e-3589-416f-8eeb-5272a7ec7b33').addClass('collapsed')
+            $('#skipped-6953e82e-3589-416f-8eeb-5272a7ec7b33').removeClass('show')
+            $('#skipped-collapse-6953e82e-3589-416f-8eeb-5272a7ec7b33').removeClass('show')
+            $('#skipped-c811f652-c99e-4790-9fa1-dd43ed684f7c').addClass('collapsed')
+            $('#skipped-collapse-c811f652-c99e-4790-9fa1-dd43ed684f7c').addClass('collapsed')
+            $('#skipped-c811f652-c99e-4790-9fa1-dd43ed684f7c').removeClass('show')
+            $('#skipped-collapse-c811f652-c99e-4790-9fa1-dd43ed684f7c').removeClass('show')
+            $('#skipped-8a7add05-b0a8-4488-8de7-fdf59f9924f9').addClass('collapsed')
+            $('#skipped-collapse-8a7add05-b0a8-4488-8de7-fdf59f9924f9').addClass('collapsed')
+            $('#skipped-8a7add05-b0a8-4488-8de7-fdf59f9924f9').removeClass('show')
+            $('#skipped-collapse-8a7add05-b0a8-4488-8de7-fdf59f9924f9').removeClass('show')
+        $('#openAllSkipped').html("Expand All Skipped Tests");
+        break;
+}
+clickCount = clickCount > 1 ? 1 : ++clickCount;
+$(this).data("clickCount", clickCount)
+})
+</script>
+
+<!-- Show/Hide The Failures -->
+
+<script>
+$('#openAllFailed').on('click', function(e) {
+let clickCount = $(this).data("clickCount") || 1
+let failedItemContent
+let failedItemHeading
+switch (clickCount){
+    case 1:
+        $('#openAllFailed').html("Collapse All Failed Tests");
+        break;
+    case 2:
+        $('#openAllFailed').html("Expand All Failed Tests");
+        break;
+}
+clickCount = clickCount > 1 ? 1 : ++clickCount;
+$(this).data("clickCount", clickCount)
+})
+</script>
+
+<!-- Pretty Print the Response Body-->
+
+<script>
+function isJSON(data)
+{
+    var ret = true;
+    try {
+            JSON.parse(data);
+    }catch(e) {
+            ret = false;
+    }
+    return ret;
+}
+
+function isXML(data)
+{
+    return (data.length > 0 && data[0] === '<');
+}
+
+// see https://gist.github.com/sente/1083506/d2834134cd070dbcc08bf42ee27dabb746a1c54d#gistcomment-2254622
+function formatXML(data) {
+    const PADDING = ' '.repeat(2); // set desired indent size here
+    const reg = /(>)(<)(\/*)/g;
+    let pad = 0;
+    xml = data.replace(reg, '$1\r\n$2$3');
+
+    return xml.split('\r\n').map((node, index) => {
+        let indent = 0;
+        if (node.match(/.+<\/\w[^>]*>$/)) {
+            indent = 0;
+        } else if (node.match(/^<\/\w/) && pad > 0) {
+            pad -= 1;
+        } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
+            indent = 1;
+        } else {
+            indent = 0;
+        }
+
+        pad += indent;
+        return PADDING.repeat(pad - indent) + node;
+    }).join('\r\n');
+}
+
+$(".prettyPrint").each(function () {
+        var data = $(this).text();
+        // Verify whether data is JSON
+        if(isJSON(data))
+        {
+                obj = JSON.parse(data);
+                data = JSON.stringify(obj, null, 2);
+        }
+        else if(isXML(data)) {
+            data = formatXML(data);
+        }
+        $(this).text(data);
+});
+</script>
+
+
+<!-- Copy Response Body To Clipboard -->
+
+<script>
+    var clipboard = new ClipboardJS('.copyButton');
+
+    clipboard.on('success', function(e) {
+        e.clearSelection();
+        $(".copyButton").addClass("bg-success text-white")
+        e.trigger.textContent = '✔ Copied!';
+        window.setTimeout(function() {
+            $(".copyButton").removeClass("bg-success text-white")
+            e.trigger.textContent = 'Copy to Clipboard';
+        }, 2000);
+    });
+    clipboard.on('error', function(e) {
+        e.clearSelection();
+        $(".copyButton").addClass("bg-danger text-white")
+        e.trigger.textContent = '✗ Not Copied';
+        window.setTimeout(function() {
+            $(".copyButton").removeClass("bg-danger text-white")
+            e.trigger.textContent = 'Copy to Clipboard';
+        }, 2000);
+    });
+
+</script>
+
+<!-- Render the Description Markdown and link in the test failures -->
+
+<script>
+    const remarkable = new Remarkable();
+
+    const descriptions = document.querySelectorAll(".renderMarkdown");
+    descriptions.forEach(description => {
+        description.innerHTML = renderHtmlFromMarkdown(description.textContent);
+    });
+    function renderHtmlFromMarkdown(markdown) {
+        return remarkable.render(trim(markdown));
+    }
+    function trim(string) {
+        return string ? string.replace(/^ +| +$/gm, "") : string;
+    }
+</script>
+
+<!-- Show/Hide The Toggles When Scrolling The Page -->
+
+<script>
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    document.getElementById("topOfRequestsScreen").style.display = "block";
+    document.getElementById("topOfFailuresScreen").style.display = "block";
+    document.getElementById("topOfSkippedScreen").style.display = "block";
+    document.getElementById("openAll").style.display = "none";
+    document.getElementById("openAllRequests").style.display = "none";
+
+
+  } else {
+    document.getElementById("topOfRequestsScreen").style.display = "none";
+    document.getElementById("topOfFailuresScreen").style.display = "none";
+    document.getElementById("topOfSkippedScreen").style.display = "none";
+    document.getElementById("openAll").style.display = "block";
+    document.getElementById("openAllRequests").style.display = "block";
+
+  }
+}
+
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+</script>
+
+<!-- Creates The Iteration Tabs -->
+
+<script type="text/javascript">
+    "use strict";
+
+window.onload = function () {
+
+  // set display for all blocks of response
+  var allItems = document.querySelectorAll('[class*=iteration-]');
+  allItems.forEach(function(elem){
+    elem.style.display = 'block';
+  });
+
+   
+  let totalIterations = 1;
+   
+
+  let menu = document.querySelector('#execution-menu .nav');
+
+  for(var i = 0; i < totalIterations; i++)
+  {
+    let li = document.createElement('li');
+    li.appendChild(document.createTextNode((i + 1)));
+    li.setAttribute('id', 'iteration-' + i);
+    li.classList.add("custom-tab");
+    li.classList.add("itPassed");
+
+    li.addEventListener('click', function() {
+      //set display to none for all except row
+      let allItems = document.querySelectorAll('[class*=iteration-]:not(.row)');
+      allItems.forEach(function(elem) {
+        elem.style.display = 'none';
+      })
+
+      let allMenus = document.querySelectorAll('[id*=iteration-]');
+      allMenus.forEach(function(elem){
+        elem.style.borderBottom = 'none';
+      })
+
+      this.style.borderBottom = 'solid 3px #032a33';
+
+      let items = document.querySelectorAll("." + this.id + ':not(.row)');
+      items.forEach(function(elem) {
+        elem.style.display = elem.style.display == 'block' ? 'none' : 'block';
+      })
+    });
+    menu.appendChild(li);
+  }
+
+  //shows first tab data
+  document.getElementById('iteration-0').click();
+  document.getElementById('iterationSelected').innerHTML = `Iteration ${document.getElementById('iteration-0').innerHTML} selected`
+
+}
+</script>
+
+<!-- Create the Selected Iteration Label -->
+
+<script>
+$(document).ready(function(){
+    $(function() {
+        $("#iterationList li").click(function() {
+            document.getElementById('iterationSelected').innerHTML = "Iteration " + this.innerHTML + " selected"
+        });
+    });
+});
+</script>
+
+<!-- Filter Action for the Iterations -->
+
+<script>
+$("#filterInput").on("input paste", function() {
+    var value = $(this).val();
+    $("#iterationList li").filter(function() {
+	    $("#showOnlyFailures").data("clickCount") ? $("#showOnlyFailures").click():null;
+        $(this).toggle($(this).text().indexOf(value) > -1)
+    });
+});
+</script>
+
+<!-- Showing the Failed Interations -->
+
+<script>
+$('#showOnlyFailures').on('click', function(e) {
+    let clickCount = $(this).data("clickCount") || 1
+	$("#filterInput").val()!="" && clickCount==1 ? $("#filterInput").val('').trigger('input'): null;
+    let selectedIteration = $('#iterationList li').filter(function () {
+        return $(this).css('border-bottom').indexOf("solid") > -1 && $(this).hasClass('itFailed');
+    });
+    selectedIteration.length || clickCount > 1 ? null : $("#iterationList li.itFailed")[0].click()
+    $("#iterationList li.itPassed").toggle()
+    $("div.bg-success [id*=requests]").parents('[class^="row iteration-"]').toggle();
+    clickCount = clickCount > 1 ? 1 : ++clickCount;
+    clickCount > 1 ? $("#showOnlyFailures").html("Show All Iterations") : $("#showOnlyFailures").html("Show Failed Iterations");
+    $(this).data("clickCount", clickCount)
+})
+</script>
+</body>
+</html>
